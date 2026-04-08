@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Event
-{
+public class Event {
     // Atributos fijos
     // Estos serán incluidos por el propio tracker en cada evento que se registre.
     protected int    _timestamp;  // Momento exacto en el que ocurre el evento.
@@ -16,8 +15,7 @@ public class Event
     // Nota: he mirado que int == System.Int32
 
     // TODO comprobar que sea asi y ver si necesitamos mas cosas
-    public Event(int id, string name, string type) { 
-        _event_id = id;
+    public Event(string name, string type) { 
         _event_name = name;
         _event_type = type;
     }
