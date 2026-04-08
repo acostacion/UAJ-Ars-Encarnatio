@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Event : MonoBehaviour
+public class Event
 {
-    #region Atributos fijos
+    // Atributos fijos
     // Estos serán incluidos por el propio tracker en cada evento que se registre.
     protected int    _timestamp;  // Momento exacto en el que ocurre el evento.
     protected int    _player_id;  // Identificación del jugador.
@@ -14,7 +14,13 @@ public class Event : MonoBehaviour
     protected string _event_name; // Nombre del evento.
     protected string _event_type; // Categoría del evento.
     // Nota: he mirado que int == System.Int32
-    #endregion
+
+    // TODO comprobar que sea asi y ver si necesitamos mas cosas
+    public Event(int id, string name, string type) { 
+        _event_id = id;
+        _event_name = name;
+        _event_type = type;
+    }
 
     // TODO seguir haciendo esto
 }

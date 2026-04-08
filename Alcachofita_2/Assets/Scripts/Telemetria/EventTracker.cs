@@ -34,6 +34,9 @@ public class EventTracker : MonoBehaviour {
     enum PersistenceType { File }
     PersistenceType _persistenceType;
 
+    // Cola de eventos
+    // TODO  pero hacer con la clase event k he creado
+
     void Start() {
         _persistenceType = PersistenceType.File; // por ejemplo
         _serializationType = SerializationType.JSON; // por ejemplo
