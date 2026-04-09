@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.SocialPlatforms;
 using static UnityEditor.ShaderData;
 
-public class EventTracker : MonoBehaviour {
-    static private EventTracker _instance = null;
-    static public EventTracker Instance { get { return _instance; } }
+public class Tracker : MonoBehaviour {
+    static private Tracker _instance = null;
+    static public Tracker Instance { get { return _instance; } }
     void Awake()
     {
         if (_instance == null) {

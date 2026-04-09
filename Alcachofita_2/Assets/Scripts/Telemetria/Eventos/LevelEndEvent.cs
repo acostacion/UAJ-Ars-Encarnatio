@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Finalización de un dibujo y resultado.
-public class LevelEndEvent : Event {
+public class LevelEndEvent : TrackerEvent {
     // Número que corresponde al dibujo en el manual.
     private byte _level_id; // TODO, hacemos clase pare rollo LevelEvent para k ambas tengan el atributo level id? LevelStartEvent y LevelEndEvent me refiero
 

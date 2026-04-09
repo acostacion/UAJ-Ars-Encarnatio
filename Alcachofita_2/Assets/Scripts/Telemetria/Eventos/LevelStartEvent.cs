@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Inicio de cada dibujo.
-public class LevelStartEvent : Event {
+public class LevelStartEvent : TrackerEvent {
     // Número que corresponde al dibujo en el manual.
     private byte _level_id;
     public LevelStartEvent(byte levelid) : base("level_start", "Gameplay") {

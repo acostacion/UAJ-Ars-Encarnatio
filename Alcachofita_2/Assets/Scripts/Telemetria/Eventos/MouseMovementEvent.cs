@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Registro del movimiento del ratón con una frecuencia limitada.
-public class MouseMovementEvent : Event {
+public class MouseMovementEvent : TrackerEvent {
     // Coordenada X, Y del cursor respecto a la resolución de la pantalla de juego.
     private Vector2 _mouse_pos;
     public MouseMovementEvent(Vector2 mousepos) : base("mouse_movement", "Gameplay") {
