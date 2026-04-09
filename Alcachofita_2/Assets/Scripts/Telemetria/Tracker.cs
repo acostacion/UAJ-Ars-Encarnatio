@@ -37,6 +37,7 @@ public class Tracker : MonoBehaviour {
     // Cola de eventos
     // TODO  pero hacer con la clase event k he creado
 
+    // Esto esta inspirado en el repo de David
     void Start() {
         _persistenceType = PersistenceType.File; // por ejemplo
         _serializationType = SerializationType.JSON; // por ejemplo
@@ -60,4 +61,7 @@ public class Tracker : MonoBehaviour {
         // 3...
 
     }
+
+    // Metodos que dice el UML:
+    // INIT(), END(), INSTANCE(), TRACKEVENT()
 }
