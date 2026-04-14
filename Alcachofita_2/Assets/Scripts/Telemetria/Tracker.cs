@@ -8,7 +8,10 @@ public class Tracker : MonoBehaviour {
     static private Tracker _instance = null;
     static public Tracker Instance { get { return _instance; } }
 
-    private Queue<TrackerEvent> _events = new Queue<TrackerEvent>();
+    private Queue<TrackerEvent> events = new Queue<TrackerEvent>();
+    int sesionID;
+    int playerID;
+    int eventID = 0;
     void Awake()
     {
         if (_instance == null) {
@@ -67,15 +70,74 @@ public class Tracker : MonoBehaviour {
     // Metodos que dice el UML:
     // INIT(), END(), INSTANCE(), TRACKEVENT()
 
-    public void registerDrawStartEvent() {}
-    public void registerDrawEndEvent() {}
-    public void registerLevelStartEvent() { }
-    public void registerLevelEndEvent() { }
-    public void registerMouseMovementEvent() { }
-    public void registerSessionStartEvent() { }
-    public void registerSessionEndEvent() { }
-    public void registerUIInteractionEvent() { }
-    public void registerWidowBacKgroundedEvent() { }
-    public void registerWidowForegroundedEvent() { }
+    public void registerDrawStartEvent() 
+    {
+        TrackerEvent ev = new DrawStartEvent(eventID, (int) Time.time, playerID, sesionID);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerDrawEndEvent() 
+    {
+        TrackerEvent ev = new DrawEndEvent(eventID, (int)Time.time, playerID, sesionID);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerLevelStartEvent(byte levelID) 
+    {
+        TrackerEvent ev = new LevelStartEvent(eventID, (int)Time.time, playerID, sesionID, levelID);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerLevelEndEvent(byte levelID, bool result)
+    {
+        TrackerEvent ev = new LevelEndEvent(eventID, (int)Time.time, playerID, sesionID, levelID, result);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerMouseMovementEvent(Vector2 mouse_pos) 
+    {
+        TrackerEvent ev = new MouseMovementEvent(eventID, (int)Time.time, playerID, sesionID, mouse_pos);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerSessionStartEvent() 
+    {
+        TrackerEvent ev = new SessionStartEvent(eventID, (int)Time.time, playerID, sesionID);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerSessionEndEvent(bool result) 
+    {
+        TrackerEvent ev = new SessionEndEvent(eventID, (int)Time.time, playerID, sesionID, result);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerUIInteractionEvent(InteractionTarget target) 
+    {
+        TrackerEvent ev = new UIInteractionEvent(eventID, (int)Time.time, playerID, sesionID, target);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerWidowBacKgroundedEvent() 
+    {
+        TrackerEvent ev = new WindowBackgroundedEvent(eventID, (int)Time.time, playerID, sesionID);
+        events.Enqueue(ev);
+        eventID++;
+    }
+
+    public void registerWidowForegroundedEvent() 
+    {
+        TrackerEvent ev = new WindowForegroundedEvent(eventID, (int)Time.time, playerID, sesionID);
+        events.Enqueue(ev);
+        eventID++;
+    }
 
 }
