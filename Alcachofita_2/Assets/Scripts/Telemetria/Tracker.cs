@@ -7,6 +7,8 @@ using static UnityEditor.ShaderData;
 public class Tracker : MonoBehaviour {
     static private Tracker _instance = null;
     static public Tracker Instance { get { return _instance; } }
+
+    private Queue<TrackerEvent> _events = new Queue<TrackerEvent>();
     void Awake()
     {
         if (_instance == null) {
@@ -64,4 +66,16 @@ public class Tracker : MonoBehaviour {
 
     // Metodos que dice el UML:
     // INIT(), END(), INSTANCE(), TRACKEVENT()
+
+    public void registerDrawStartEvent() {}
+    public void registerDrawEndEvent() {}
+    public void registerLevelStartEvent() { }
+    public void registerLevelEndEvent() { }
+    public void registerMouseMovementEvent() { }
+    public void registerSessionStartEvent() { }
+    public void registerSessionEndEvent() { }
+    public void registerUIInteractionEvent() { }
+    public void registerWidowBacKgroundedEvent() { }
+    public void registerWidowForegroundedEvent() { }
+
 }

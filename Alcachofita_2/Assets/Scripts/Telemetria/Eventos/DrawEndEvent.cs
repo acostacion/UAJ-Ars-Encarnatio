@@ -6,5 +6,5 @@ using UnityEngine;
 public class DrawEndEvent : TrackerEvent
 {
     // No tiene ningún atributo extra. TODO quizá mousepos
-    public DrawEndEvent() : base("draw_end", "Gameplay") { }
+    public DrawEndEvent(int eventId, int timestamp, int playerId, int sessionId) : base("draw_end", "Gameplay", eventId, timestamp, playerId, sessionId) { }
 }

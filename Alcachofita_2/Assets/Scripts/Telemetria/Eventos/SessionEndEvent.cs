@@ -8,7 +8,7 @@ public class SessionEndEvent : TrackerEvent {
     // True == partida ganada 
     // False == partida perdida
     [SerializeField] protected bool result; 
-    public SessionEndEvent(bool result) : base("session_end", "Generic") {
+    public SessionEndEvent(int eventId, int timestamp, int playerId, int sessionId, bool result) : base("session_end", "Generic", eventId, timestamp, playerId, sessionId) {
         this.result = result;
     }
 }
