@@ -60,15 +60,9 @@ public class Tracker : MonoBehaviour {
                 // ... TODO: aniadir otros casos si los hacemos...
         }
 
-        // 2. colas de eventos
-        // TODO
-
-        // 3...
-
+        registerSessionStartEvent();
     }
 
-    // Metodos que dice el UML:
-    // INIT(), END(), INSTANCE(), TRACKEVENT()
 
     public void registerDrawStartEvent() 
     {
@@ -112,9 +106,9 @@ public class Tracker : MonoBehaviour {
         eventID++;
     }
 
-    public void registerSessionEndEvent(bool result) 
+    public void registerSessionEndEvent() 
     {
-        TrackerEvent ev = new SessionEndEvent(eventID, (int)Time.time, playerID, sesionID, result);
+        TrackerEvent ev = new SessionEndEvent(eventID, (int)Time.time, playerID, sesionID);
         events.Enqueue(ev);
         eventID++;
     }
@@ -138,6 +132,27 @@ public class Tracker : MonoBehaviour {
         TrackerEvent ev = new WindowForegroundedEvent(eventID, (int)Time.time, playerID, sesionID);
         events.Enqueue(ev);
         eventID++;
+    }
+
+    public void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus) 
+            registerWidowForegroundedEvent();
+        else
+            registerWidowBacKgroundedEvent();
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+            registerWidowForegroundedEvent();
+        else
+            registerWidowBacKgroundedEvent();
+    }
+
+    void OnApplicationQuit()
+    {
+        registerSessionEndEvent();
     }
 
 }
