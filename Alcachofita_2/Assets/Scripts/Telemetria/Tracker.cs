@@ -9,6 +9,8 @@ public class Tracker : MonoBehaviour {
     static public Tracker Instance { get { return _instance; } }
 
     private Queue<TrackerEvent> events = new Queue<TrackerEvent>();
+    private FilePersistence persistor;
+    private ISerializer serializer;
     int sesionID;
     int playerID;
     int eventID = 0;
@@ -52,13 +54,18 @@ public class Tracker : MonoBehaviour {
             case PersistenceType.File:
                 switch (_serializationType) {
                     case SerializationType.JSON:
-                        // TODO crear un objeto persistencia file de json.
-                    break;
+                        serializer = new JsonSerializer();
+                        break;
                         // ... TODO: aniadir otros casos si los hacemos...
                 }
-            break;
+                persistor = new FilePersistence(serializer);
+                break;
                 // ... TODO: aniadir otros casos si los hacemos...
         }
+
+        
+
+        
 
         registerSessionStartEvent();
     }
