@@ -6,9 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class SessionEndEvent : TrackerEvent {
     // True == partida ganada 
-    // False == partida perdida
-    [SerializeField] protected bool result; 
-    public SessionEndEvent(int eventId, int timestamp, int playerId, int sessionId, bool result) : base("session_end", "Generic", eventId, timestamp, playerId, sessionId) {
-        this.result = result;
+    // False == partida perdida 
+    public SessionEndEvent(int eventId, int timestamp, int playerId, int sessionId) : base("session_end", "Generic", eventId, timestamp, playerId, sessionId) {
     }
 }
