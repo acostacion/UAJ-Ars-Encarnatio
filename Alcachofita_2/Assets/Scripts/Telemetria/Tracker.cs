@@ -8,12 +8,13 @@ public class Tracker : MonoBehaviour {
     static private Tracker _instance = null;
     static public Tracker Instance { get { return _instance; } }
 
-    private Queue<TrackerEvent> events = new Queue<TrackerEvent>();
     private FilePersistence persistor;
     private ISerializer serializer;
     int sesionID;
     int playerID;
     int eventID = 0;
+
+    float currEvents, eventsToFlush = 30;
     void Awake()
     {
         if (_instance == null) {
@@ -63,82 +64,102 @@ public class Tracker : MonoBehaviour {
                 // ... TODO: aniadir otros casos si los hacemos...
         }
 
-        
-
-        
+        //TODO: decidir como decidimos la sesion id y el player id
+        sesionID = 0;
+        playerID = 0;
 
         registerSessionStartEvent();
     }
 
 
+
     public void registerDrawStartEvent() 
     {
         TrackerEvent ev = new DrawStartEvent(eventID, (int) Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerDrawEndEvent() 
     {
         TrackerEvent ev = new DrawEndEvent(eventID, (int)Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerLevelStartEvent(byte levelID) 
     {
         TrackerEvent ev = new LevelStartEvent(eventID, (int)Time.time, playerID, sesionID, levelID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerLevelEndEvent(byte levelID, bool result)
     {
         TrackerEvent ev = new LevelEndEvent(eventID, (int)Time.time, playerID, sesionID, levelID, result);
-        events.Enqueue(ev);
+        persistor.Send(ev);
         eventID++;
+        persistor.Flush();
     }
 
     public void registerMouseMovementEvent(Vector2 mouse_pos) 
     {
         TrackerEvent ev = new MouseMovementEvent(eventID, (int)Time.time, playerID, sesionID, mouse_pos);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerSessionStartEvent() 
     {
         TrackerEvent ev = new SessionStartEvent(eventID, (int)Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerSessionEndEvent() 
     {
         TrackerEvent ev = new SessionEndEvent(eventID, (int)Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerUIInteractionEvent(InteractionTarget target) 
     {
         TrackerEvent ev = new UIInteractionEvent(eventID, (int)Time.time, playerID, sesionID, target);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerWidowBacKgroundedEvent() 
     {
         TrackerEvent ev = new WindowBackgroundedEvent(eventID, (int)Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void registerWidowForegroundedEvent() 
     {
         TrackerEvent ev = new WindowForegroundedEvent(eventID, (int)Time.time, playerID, sesionID);
-        events.Enqueue(ev);
-        eventID++;
+        persistor.Send(ev);
+        eventID++; currEvents++;
+        if (currEvents > eventsToFlush)
+            flush();
     }
 
     public void OnApplicationFocus(bool hasFocus)
@@ -160,6 +181,13 @@ public class Tracker : MonoBehaviour {
     void OnApplicationQuit()
     {
         registerSessionEndEvent();
+        persistor.Flush();
+    }
+
+    private void flush()
+    {
+        persistor.Flush();
+        currEvents = 0;
     }
 
 }
