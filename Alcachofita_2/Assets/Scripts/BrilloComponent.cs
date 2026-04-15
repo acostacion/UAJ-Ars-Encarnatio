@@ -11,6 +11,10 @@ public class BrilloComponent : MonoBehaviour
         {
             trapo.color = new Color(trapo.color.r, trapo.color.g, trapo.color.b, 1);
         }
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 10;
+        System.Numerics.Vector2 mPos = new System.Numerics.Vector2(mousePosition.x, mousePosition.y);
+        Tracker.Instance.registerUIInteractionEvent(InteractionTarget.TRAPO, mPos);
     }
 
     void OnMouseExit()

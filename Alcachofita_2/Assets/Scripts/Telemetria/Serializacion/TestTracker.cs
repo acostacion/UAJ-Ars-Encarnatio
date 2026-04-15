@@ -11,7 +11,7 @@ public class TestTracker : MonoBehaviour
         ISerializer serializer = new JsonSerializer();
 
         // Crear un eveto de prueba
-        LevelEndEvent testEvent = new LevelEndEvent(0, 0, 0, 0, 1, true);
+        LevelEndEvent testEvent = new LevelEndEvent(0, System.DateTime.MinValue, 0, 0, 1, true);
         
         // Pasar el evento por el serializador para obtener el texto JSON
         string resultJson = serializer.Serialize(testEvent);

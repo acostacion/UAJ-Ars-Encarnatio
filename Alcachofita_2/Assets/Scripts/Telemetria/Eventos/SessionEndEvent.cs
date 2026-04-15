@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 // Fin de la sesión de juego, indicando el resultado global de la partida.
 [System.Serializable]
 public class SessionEndEvent : TrackerEvent {
     // True == partida ganada 
     // False == partida perdida 
-    public SessionEndEvent(int eventId, int timestamp, int playerId, int sessionId) : base("session_end", "Generic", eventId, timestamp, playerId, sessionId) {
+    public SessionEndEvent(int eventId, DateTime timestamp, int playerId, int sessionId) : base("session_end", "Generic", eventId, timestamp, playerId, sessionId) {
     }
 }

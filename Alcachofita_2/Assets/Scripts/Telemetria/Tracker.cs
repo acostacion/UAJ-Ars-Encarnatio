@@ -1,10 +1,7 @@
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SocialPlatforms;
-using static UnityEditor.ShaderData;
+using System;
+using System.Numerics;
 
-public class Tracker : MonoBehaviour {
+public class Tracker {
     static private Tracker _instance = null;
     static public Tracker Instance { get { return _instance; } }
 
@@ -15,17 +12,18 @@ public class Tracker : MonoBehaviour {
     int eventID = 0;
 
     float currEvents, eventsToFlush = 30;
-    void Awake()
-    {
-        if (_instance == null) {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
-            Destroy(gameObject);
-            return;
-        }
-    }
+    // ESTE AWAKE DEBERÍA IR EN EL MONOBEHAVIOUR Q INICIALIZA EL TRACKER
+    //void Awake()
+    //{
+    //    if (_instance == null) {
+    //        _instance = this;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+    //}
 
     /// <summary>
     /// • Centralización del punto de entrada del sistema de telemetría en un objeto accesible desde cualquier punto de nuestro juego.
@@ -75,7 +73,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerDrawStartEvent() 
     {
-        TrackerEvent ev = new DrawStartEvent(eventID, (int) Time.time, playerID, sesionID);
+        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -84,7 +82,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerDrawEndEvent() 
     {
-        TrackerEvent ev = new DrawEndEvent(eventID, (int)Time.time, playerID, sesionID);
+        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -93,7 +91,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerLevelStartEvent(byte levelID) 
     {
-        TrackerEvent ev = new LevelStartEvent(eventID, (int)Time.time, playerID, sesionID, levelID);
+        TrackerEvent ev = new LevelStartEvent(eventID, DateTime.UtcNow, playerID, sesionID, levelID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -102,7 +100,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerLevelEndEvent(byte levelID, bool result)
     {
-        TrackerEvent ev = new LevelEndEvent(eventID, (int)Time.time, playerID, sesionID, levelID, result);
+        TrackerEvent ev = new LevelEndEvent(eventID, DateTime.UtcNow, playerID, sesionID, levelID, result);
         persistor.Send(ev);
         eventID++;
         persistor.Flush();
@@ -110,7 +108,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerMouseMovementEvent(Vector2 mouse_pos) 
     {
-        TrackerEvent ev = new MouseMovementEvent(eventID, (int)Time.time, playerID, sesionID, mouse_pos);
+        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, playerID, sesionID, mouse_pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -119,7 +117,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerSessionStartEvent() 
     {
-        TrackerEvent ev = new SessionStartEvent(eventID, (int)Time.time, playerID, sesionID);
+        TrackerEvent ev = new SessionStartEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -128,16 +126,16 @@ public class Tracker : MonoBehaviour {
 
     public void registerSessionEndEvent() 
     {
-        TrackerEvent ev = new SessionEndEvent(eventID, (int)Time.time, playerID, sesionID);
+        TrackerEvent ev = new SessionEndEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
             flush();
     }
 
-    public void registerUIInteractionEvent(InteractionTarget target) 
+    public void registerUIInteractionEvent(InteractionTarget target, Vector2 mouse_pos) 
     {
-        TrackerEvent ev = new UIInteractionEvent(eventID, (int)Time.time, playerID, sesionID, target);
+        TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, playerID, sesionID, target, mouse_pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -146,7 +144,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerWidowBacKgroundedEvent() 
     {
-        TrackerEvent ev = new WindowBackgroundedEvent(eventID, (int)Time.time, playerID, sesionID);
+        TrackerEvent ev = new WindowBackgroundedEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -155,7 +153,7 @@ public class Tracker : MonoBehaviour {
 
     public void registerWidowForegroundedEvent() 
     {
-        TrackerEvent ev = new WindowForegroundedEvent(eventID, (int)Time.time, playerID, sesionID);
+        TrackerEvent ev = new WindowForegroundedEvent(eventID, DateTime.UtcNow, playerID, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
