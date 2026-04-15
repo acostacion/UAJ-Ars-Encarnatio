@@ -11,18 +11,14 @@ public class FilePersistence : IPersistence {
         _serializer = serializer;
         _path = path;
 
-        string directory = path.GetDirectyName(_path);
+        string directory = Path.GetDirectoryName(_path);
         if (!Directory.Exists(directory))
         {
-            directory.CreateDirectory(directory);
+            Directory.CreateDirectory(directory);
         }
         _writer = new StreamWriter(directory);
     }
-    public void Send(TrackerEvent trackerEvent) {
-        _events.Add(trackerEvent);
-    }
-    
-    
+   
     public override void Flush(List<TrackerEvent> events)
     {
         try
