@@ -1,18 +1,18 @@
-using System;
+Ôªøusing System;
 using System.Numerics;
-
+using System.IO;
 public class Tracker {
     static private Tracker _instance = null;
     static public Tracker Instance { get { return _instance; } }
 
-    private FilePersistence persistor;
+    private IPersistence persistor;
     private ISerializer serializer;
     int sesionID;
     int playerID;
     int eventID = 0;
 
     float currEvents, eventsToFlush = 30;
-    // ESTE AWAKE DEBERÕA IR EN EL MONOBEHAVIOUR Q INICIALIZA EL TRACKER
+    // ESTE AWAKE DEBER√çA IR EN EL MONOBEHAVIOUR Q INICIALIZA EL TRACKER
     //void Awake()
     //{
     //    if (_instance == null) {
@@ -26,10 +26,10 @@ public class Tracker {
     //}
 
     /// <summary>
-    /// ï CentralizaciÛn del punto de entrada del sistema de telemetrÌa en un objeto accesible desde cualquier punto de nuestro juego.
-    /// ï Puede requerir de una inicializaciÛn y finalizaciÛn explÌcitas.
-    /// ï En la inicializaciÛn se pueden enviar eventos de inicio de sesiÛn junto con par·metros que pueden aportar especificaciones adicionales: plataforma, SO, paÌs,
-    /// informaciÛn demogr·fica (aÒo de nacimiento, sexo, id de alguna red social. . . ).
+    /// ‚Ä¢ Centralizaci√≥n del punto de entrada del sistema de telemetr√≠a en un objeto accesible desde cualquier punto de nuestro juego.
+    /// ‚Ä¢ Puede requerir de una inicializaci√≥n y finalizaci√≥n expl√≠citas.
+    /// ‚Ä¢ En la inicializaci√≥n se pueden enviar eventos de inicio de sesi√≥n junto con par√°metros que pueden aportar especificaciones adicionales: plataforma, SO, pa√≠s,
+    /// informaci√≥n demogr√°fica (a√±o de nacimiento, sexo, id de alguna red social. . . ).
     /// </summary>
     
     // Ej.: JSON, CSV. XML, YAML, Binary Formats
@@ -57,7 +57,8 @@ public class Tracker {
                         break;
                         // ... TODO: aniadir otros casos si los hacemos...
                 }
-                persistor = new FilePersistence(serializer);
+                string path = Application.persistentDataPath + "/events.json";
+                persistor = new FilePersistence(serializer, path);
                 break;
                 // ... TODO: aniadir otros casos si los hacemos...
         }

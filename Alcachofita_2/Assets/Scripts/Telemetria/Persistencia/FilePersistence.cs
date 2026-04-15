@@ -1,39 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 public class FilePersistence : IPersistence {
 
     private ISerializer _serializer;
     private string _path;
-    private List<TrackerEvent> _events = new List<TrackerEvent> ();
-    
-    public FilePersistence(ISerializer serializer)
+    private StreamWriter _writer;
+    public FilePersistence(ISerializer serializer, string path)
     {
         _serializer = serializer;
-        _path = Application.persistentDataPath + "/events.json";
+        _path = path;
+
+        string directory = path.GetDirectyName(_path);
+        if (!Directory.Exists(directory))
+        {
+            directory.CreateDirectory(directory);
+        }
+        _writer = new StreamWriter(directory);
     }
     public void Send(TrackerEvent trackerEvent) {
         _events.Add(trackerEvent);
     }
     
     
-    public void Flush(List<TrackerEvent> events)
+    public override void Flush(List<TrackerEvent> events)
     {
         try
         {
             foreach(var e in events)
             {
                 string json = _serializer.Serialize(e);
-                File.AppendAllText(_path, json + "\n");
+                _writer.WriteLine(json);
             }
+            _writer.Flush();
         }catch(System.Exception ex)
         {
-            Debug.Log("Error en persistencia: " + ex.Message);
+            System.Console.WriteLine("Error persistencia",ex.Message);
         }
     }
-    public void Flush() {
-        Flush(_events);
-        _events.Clear();
+    public void Close()
+    {
+        _writer?.Close();
     }
 }
