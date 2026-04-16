@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
         {
             // cambia de páginas
             GameManager.Instance.NextPage();
-            Debug.Log(GameManager.Instance.CurrentPage);
+            //Debug.Log(GameManager.Instance.CurrentPage);
 
             //percent.text = GameManager.Instance.GetPercent() + "%";
         }
