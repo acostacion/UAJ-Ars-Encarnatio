@@ -35,77 +35,72 @@ public class UIManager : MonoBehaviour
     }
 
     /// Metodo para el onClick de los botones, para pasar al juego
-    public void GoToGame()
-    {
+    public void GoToGame() {
+        // [TELEMETRIA] evento cuando empieza al juego tras presionar boton start.
+        Tracker.Instance.registerSessionStartEvent();
+
         RequestStateChange(GameManager.GameStates.GAME); // referenciando al gamemanager (importante! si no no cambia de estado)
-        //...
     }
 
     // Metodo para pasar de pagina
-    public void TurnPage()
-    {
-        if (GameManager.Instance != null)
-        {
-            // cambia de páginas
-            GameManager.Instance.NextPage();
-            //Debug.Log(GameManager.Instance.CurrentPage);
+    public void TurnPage() {
+        // [TRACKER] cuando se pulsa borde de pagina
+        Tracker.Instance.registerUIInteractionEvent(InteractionTarget.CONFIRMAR, Input.mousePosition);
 
-            //percent.text = GameManager.Instance.GetPercent() + "%";
-        }
+        // cambia de páginas
+        if (GameManager.Instance != null) GameManager.Instance.NextPage();
     }
 
-    public void ErasePage()
-    { // ESTO ES UNA PUTA MIERDA XD 
-        if (GameManager.Instance != null && GameManager.Instance.Input != null)
-        {
-            if (GameManager.Instance.Input.DrawingComponent != null)
-            {
+    public void ErasePage() { 
+        if (GameManager.Instance != null && GameManager.Instance.Input != null) {
+            if (GameManager.Instance.Input.DrawingComponent != null) {
+                // [TRACKER] cuando se pulsa trapo
+                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.TRAPO, Input.mousePosition);
+
                 GameManager.Instance.Input.DrawingComponent.EraseDrawing();
             }
         }
     }
 
     /// Metodo para el onClick de los botones, para pasar al final del juego
-    public void GoToEnding()
-    {
+    public void GoToEnding() {
         RequestStateChange(GameManager.GameStates.END); // referenciando al gamemanager (importante! si no no cambia de estado)
     }
 
     /// Metodo para el onClick de los botones, para reintar 
-    public void Retry()
-    {
+    public void Retry() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void GoToCredits()
-    {
-        RequestStateChange(GameManager.GameStates.CREDITS); // referenciando al gamemanager (importante! si no no cambia de estado)
+    public void GoToCredits() {
+        // [TELEMETRIA] antes de ir a los creditos guarda el evento final de partida
+        Tracker.Instance.registerSessionEndEvent(); // TODO no deberia guardar tipo de final o algo??
+
+        // referenciando al gamemanager (importante! si no no cambia de estado)
+        RequestStateChange(GameManager.GameStates.CREDITS); 
     }
 
-    public void GoToIntro()
-    {
-        RequestStateChange(GameManager.GameStates.INTRO); // referenciando al gamemanager (importante! si no no cambia de estado)
+    public void GoToIntro() {
+        // referenciando al gamemanager (importante! si no no cambia de estado)
+        RequestStateChange(GameManager.GameStates.INTRO); 
     }
 
-    public void GoToMainMenu()
-    {
-        RequestStateChange(GameManager.GameStates.MAINMENU); // referenciando al gamemanager (importante! si no no cambia de estado)
+    public void GoToMainMenu() {
+        // referenciando al gamemanager (importante! si no no cambia de estado)
+        RequestStateChange(GameManager.GameStates.MAINMENU); 
     }
 
     /// Metodo para el onClick de los botones, para salir del juego
-    public void ExitGame()
-    {
+    public void ExitGame() {
         Application.Quit();
     }
     #endregion
 
 
 
-    public void ChangeAcertijoNumber(int acertijo)
-    {
+    public void ChangeAcertijoNumber(int acertijo) {
         string romano = "";
-        switch (acertijo)
-        { // XDDDDDDDDDDDDDDDDDDDDDDDDD
+        switch (acertijo) { 
             case 0: romano = "I"; break;
             case 1: romano = "II"; break;
             case 2: romano = "III"; break;

@@ -21,81 +21,66 @@ public class InputManager : MonoBehaviour
     #endregion
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         _drawingComponent = _line.GetComponent<DrawingComponent>();
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _escribeSound;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         Vector3 newPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+
+        if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameManager.GameStates.GAME) {
+            bool isInDrawingArea = _drawingComponent != null
+                                    && mousePos.x > LEFT_OFFSET
+                                    && mousePos.x < Screen.width - RIGHT_OFFSET
+                                    && mousePos.y < Screen.height - UP_OFFSET
+                                    && mousePos.y > DOWN_OFFSET;
+
+            leftClickDown(isInDrawingArea);
+            leftClickPressing(isInDrawingArea);
+            leftClickUp();
         }
+    }
 
-        if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameManager.GameStates.GAME)
-        {
-            //Al pulsar, se a�ade una l�nea
-            if (Input.GetMouseButtonDown(0))
-            {
-                mousePos = Input.mousePosition;
-                if (_drawingComponent != null
-                    && GameManager.Instance.CurrentState == GameManager.GameStates.GAME
-                    && mousePos.x > LEFT_OFFSET
-                    && mousePos.x < Screen.width - RIGHT_OFFSET
-                    && mousePos.y < Screen.height - UP_OFFSET
-                    && mousePos.y > DOWN_OFFSET)
-                {
-                    //_drawingComponent.Paint(newPoint);
-                    _drawingComponent.VariasLineas();
-                    //Debug.Log("COJONES");
-                }
+    //Al pulsar, se a�ade una l�nea
+    void leftClickDown(bool isInDrawingArea) {
+        if (Input.GetMouseButtonDown(0)) {
+            mousePos = Input.mousePosition;
+            if (isInDrawingArea) {
+                // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
+                Tracker.Instance.registerDrawStartEvent(); // TODO pero le falta el VECTOR2, no??
+                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition);
+
+                _drawingComponent.VariasLineas();
             }
-
-
-            // CCAMBIAR ANTES DE COMMITEAR !!!!!!!
-
-            //Cada vez que se pulsa, empieza o termina el trazo
-            if (Input.GetMouseButton(0))
-            {
-                mousePos = Input.mousePosition;
-                if (_drawingComponent != null
-                    && mousePos.x > LEFT_OFFSET
-                    && mousePos.x < Screen.width - RIGHT_OFFSET
-                    && mousePos.y < Screen.height - UP_OFFSET
-                    && mousePos.y > DOWN_OFFSET)
-                {
-                    if (_drawingComponent != null && newPoint != null) _drawingComponent.Paint(newPoint);
-                    if (_audioSource != null && !_audioSource.isPlaying) _audioSource.Play();
-
-                }
+            else {
+                // [TELEMETRIA] dibuja fuera del area del cuaderno
+                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, Input.mousePosition);
             }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                Debug.Log("boton derecho");
-            }
-            else if (Input.GetMouseButtonDown(2))
-            {
-                Debug.Log("boton medio");
-            }
-            else if (Input.GetKeyDown(KeyCode.K))
-            {
-                //Debug.Log("Borra eso");
-                // Existe el script GameManager puesto.
-                if (GameManager.Instance != null)
-                    GameManager.Instance.QuitaDedo();
+        }
+    }
 
+    //Cada vez que se pulsa, empieza o termina el trazo
+    void leftClickPressing(bool isInDrawingArea) {
+        if (Input.GetMouseButton(0)) {
+            mousePos = Input.mousePosition;
+            if (isInDrawingArea) {
+                if (_drawingComponent != null && newPoint != null) _drawingComponent.Paint(newPoint);
+                if (_audioSource != null && !_audioSource.isPlaying) _audioSource.Play();
             }
+        }
+    }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                _audioSource.Stop();
-            }
+    void leftClickUp() {
+        if (Input.GetMouseButtonUp(0)) {
+            //  [TELEMETRIA] suelta trazo
+            Tracker.Instance.registerDrawEndEvent(); // TODO pero le falta el VECTOR2, no??
+
+            _audioSource.Stop();
         }
     }
 }

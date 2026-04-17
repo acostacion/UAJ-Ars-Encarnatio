@@ -70,8 +70,6 @@ public class Tracker {
         registerSessionStartEvent();
     }
 
-
-
     public void registerDrawStartEvent() 
     {
         TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, playerID, sesionID);
