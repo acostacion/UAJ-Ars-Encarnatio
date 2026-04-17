@@ -50,16 +50,24 @@ public class InputManager : MonoBehaviour
     void leftClickDown(bool isInDrawingArea) {
         if (Input.GetMouseButtonDown(0)) {
             mousePos = Input.mousePosition;
-            if (isInDrawingArea) {
+
+            // [TELEMETRIA] raycast para evitar que salte null cuando no toca
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (isInDrawingArea)
+            {
                 // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
                 Tracker.Instance.registerDrawStartEvent(); // TODO pero le falta el VECTOR2, no??
                 Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition);
 
                 _drawingComponent.VariasLineas();
             }
+            // tiene en cuenta el collider para que no mande dos clics al clicar sobre un InutilComponent.
             else {
-                // [TELEMETRIA] dibuja fuera del area del cuaderno
-                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, Input.mousePosition);
+                if (hit.collider == null) {
+                    Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, Input.mousePosition);
+                }
             }
         }
     }
