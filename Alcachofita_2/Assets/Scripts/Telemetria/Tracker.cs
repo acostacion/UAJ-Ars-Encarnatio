@@ -6,6 +6,7 @@ public class Tracker {
     static public Tracker Instance { get { return _instance; } }
 
     private IPersistence persistor;
+    // IPersistence, newPersistence
     private ISerializer serializer;
     int sesionID;
     int playerID;

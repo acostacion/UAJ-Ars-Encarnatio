@@ -14,9 +14,14 @@ public class TestTracker : MonoBehaviour
         LevelEndEvent testEvent = new LevelEndEvent(0, System.DateTime.MinValue, 0, 0, 1, true);
         
         // Pasar el evento por el serializador para obtener el texto JSON
-        string resultJson = serializer.Serialize(testEvent);
+        string resultJson1 = serializer.Serialize(testEvent);
+        string resultJson2 = serializer.Serialize(test2Event);
 
         // Imprimir en la consola de Unity
-        Debug.Log("Test de Serialización exitoso: \n" + resultJson);
+        Debug.Log("Test de Serializaciï¿½n exitoso: \n" + resultJson1);
+        Debug.Log("Test de Serializaciï¿½n exitoso 2: \n" + resultJson2);
+
+        string finalJson = resultJson1 + "\n" + resultJson2;
+        Debug.Log("Archivo final: \n" + finalJson);
     }
 }
