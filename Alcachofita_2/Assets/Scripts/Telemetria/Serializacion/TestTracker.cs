@@ -15,13 +15,13 @@ public class TestTracker : MonoBehaviour
         
         // Pasar el evento por el serializador para obtener el texto JSON
         string resultJson1 = serializer.Serialize(testEvent);
-        string resultJson2 = serializer.Serialize(test2Event);
+        //string resultJson2 = serializer.Serialize(test2Event);
 
         // Imprimir en la consola de Unity
         Debug.Log("Test de Serializaci�n exitoso: \n" + resultJson1);
-        Debug.Log("Test de Serializaci�n exitoso 2: \n" + resultJson2);
+       // Debug.Log("Test de Serializaci�n exitoso 2: \n" + resultJson2);
 
-        string finalJson = resultJson1 + "\n" + resultJson2;
-        Debug.Log("Archivo final: \n" + finalJson);
+       // string finalJson = resultJson1 + "\n" + resultJson2;
+        //Debug.Log("Archivo final: \n" + finalJson);
     }
 }
