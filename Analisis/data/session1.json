@@ -1,0 +1,199 @@
+[
+  {
+    "event_name": "session_start",
+    "event_type": "Generic",
+    "timestamp": "2026-04-19T10:00:00",
+    "session_id": 1,
+    "event_id": 0
+  },
+
+  {
+    "event_name": "level_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:00:05",
+    "session_id": 1,
+    "event_id": 1,
+    "level_id": 1
+  },
+
+  {
+    "event_name": "ui_interaction",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:00:06",
+    "session_id": 1,
+    "event_id": 2,
+    "target_id": 6,
+    "clic_pos": { "x": 500, "y": 400 }
+  },
+
+  {
+    "event_name": "ui_interaction",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:00:07",
+    "session_id": 1,
+    "event_id": 3,
+    "target_id": 4,
+    "clic_pos": { "x": 800, "y": 300 }
+  },
+
+  {
+    "event_name": "draw_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:00:09",
+    "session_id": 1,
+    "event_id": 4,
+    "mouse_pos": { "x": 900, "y": 600 }
+  },
+
+  {
+    "event_name": "ui_interaction",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:00:12",
+    "session_id": 1,
+    "event_id": 5,
+    "target_id": 1,
+    "clic_pos": { "x": 1000, "y": 650 }
+  },
+
+  {
+    "event_name": "window_backgrounded",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:00:20",
+    "session_id": 1,
+    "event_id": 6
+  },
+
+  {
+    "event_name": "window_foregrounded",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:00:40",
+    "session_id": 1,
+    "event_id": 7
+  },
+
+  {
+    "event_name": "level_end",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:01:00",
+    "session_id": 1,
+    "event_id": 8,
+    "level_id": 1,
+    "result": false
+  },
+
+  {
+    "event_name": "level_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:01:10",
+    "session_id": 1,
+    "event_id": 9,
+    "level_id": 1
+  },
+
+  {
+    "event_name": "draw_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:01:15",
+    "session_id": 1,
+    "event_id": 10,
+    "mouse_pos": { "x": 600, "y": 500 }
+  },
+
+  {
+    "event_name": "ui_interaction",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:01:20",
+    "session_id": 1,
+    "event_id": 11,
+    "target_id": 0,
+    "clic_pos": { "x": 300, "y": 200 }
+  },
+
+  {
+    "event_name": "level_end",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:01:40",
+    "session_id": 1,
+    "event_id": 12,
+    "level_id": 1,
+    "result": true
+  },
+
+  {
+    "event_name": "session_end",
+    "event_type": "Generic",
+    "timestamp": "2026-04-19T10:01:42",
+    "session_id": 1,
+    "event_id": 19
+  },
+
+  {
+    "event_name": "session_start",
+    "event_type": "Generic",
+    "timestamp": "2026-04-19T10:01:58",
+    "session_id": 2,
+    "event_id": 0
+  },
+
+  {
+    "event_name": "level_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:02:00",
+    "session_id": 2,
+    "event_id": 13,
+    "level_id": 2
+  },
+
+  {
+    "event_name": "ui_interaction",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:02:02",
+    "session_id": 2,
+    "event_id": 14,
+    "target_id": 2,
+    "clic_pos": { "x": 1200, "y": 400 }
+  },
+
+  {
+    "event_name": "window_backgrounded",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:02:05",
+    "session_id": 2,
+    "event_id": 15
+  },
+
+  {
+    "event_name": "window_foregrounded",
+    "event_type": "UI",
+    "timestamp": "2026-04-19T10:02:25",
+    "session_id": 2,
+    "event_id": 16
+  },
+
+  {
+    "event_name": "draw_start",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:02:30",
+    "session_id": 2,
+    "event_id": 17,
+    "mouse_pos": { "x": 1000, "y": 700 }
+  },
+
+  {
+    "event_name": "level_end",
+    "event_type": "Gameplay",
+    "timestamp": "2026-04-19T10:03:00",
+    "session_id": 2,
+    "event_id": 18,
+    "level_id": 2,
+    "result": true
+  },
+
+  {
+    "event_name": "session_end",
+    "event_type": "Generic",
+    "timestamp": "2026-04-19T10:03:10",
+    "session_id": 2,
+    "event_id": 19
+  }
+]
