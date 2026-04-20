@@ -5,13 +5,17 @@ using System.Numerics;
 using System.IO;
 public class Tracker {
     static private Tracker _instance = null;
-    static public Tracker Instance { get { return _instance; } }
+    static public Tracker Instance { 
+        get {
+            // operador que dijo guille
+            _instance ??= new Tracker();
+            return _instance; 
+        } 
+    }
 
     private IPersistence persistor;
-    // IPersistence, newPersistence
     private ISerializer serializer;
     int sesionID;
-    int playerID;
     int eventID = 0;
 
     float currEvents, eventsToFlush = 30;
@@ -69,14 +73,12 @@ public class Tracker {
                 // ... TODO: aniadir otros casos si los hacemos...
         }
 
-        //TODO: decidir como decidimos la sesion id y el player id
         sesionID = 0;
-        playerID = 0;
     }
 
     public void registerDrawStartEvent() 
     {
-        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -85,7 +87,7 @@ public class Tracker {
 
     public void registerDrawEndEvent() 
     {
-        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -94,7 +96,7 @@ public class Tracker {
 
     public void registerLevelStartEvent(byte levelID) 
     {
-        TrackerEvent ev = new LevelStartEvent(eventID, DateTime.UtcNow, playerID, sesionID, levelID);
+        TrackerEvent ev = new LevelStartEvent(eventID, DateTime.UtcNow, sesionID, levelID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -103,7 +105,7 @@ public class Tracker {
 
     public void registerLevelEndEvent(byte levelID, bool result)
     {
-        TrackerEvent ev = new LevelEndEvent(eventID, DateTime.UtcNow, playerID, sesionID, levelID, result);
+        TrackerEvent ev = new LevelEndEvent(eventID, DateTime.UtcNow, sesionID, levelID, result);
         persistor.Send(ev);
         eventID++;
         persistor.Flush();
@@ -111,7 +113,7 @@ public class Tracker {
 
     public void registerMouseMovementEvent(Vector2 mouse_pos) 
     {
-        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, playerID, sesionID, mouse_pos);
+        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -120,7 +122,7 @@ public class Tracker {
 
     public void registerSessionStartEvent() 
     {
-        TrackerEvent ev = new SessionStartEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new SessionStartEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -129,7 +131,7 @@ public class Tracker {
 
     public void registerSessionEndEvent() 
     {
-        TrackerEvent ev = new SessionEndEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new SessionEndEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -138,7 +140,7 @@ public class Tracker {
 
     public void registerUIInteractionEvent(InteractionTarget target, Vector2 mouse_pos) 
     {
-        TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, playerID, sesionID, target, mouse_pos);
+        TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, sesionID, target, mouse_pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -147,7 +149,7 @@ public class Tracker {
 
     public void registerWidowBacKgroundedEvent() 
     {
-        TrackerEvent ev = new WindowBackgroundedEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new WindowBackgroundedEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -156,7 +158,7 @@ public class Tracker {
 
     public void registerWidowForegroundedEvent() 
     {
-        TrackerEvent ev = new WindowForegroundedEvent(eventID, DateTime.UtcNow, playerID, sesionID);
+        TrackerEvent ev = new WindowForegroundedEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)

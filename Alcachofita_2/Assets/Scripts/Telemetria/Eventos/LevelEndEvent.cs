@@ -7,7 +7,7 @@ public class LevelEndEvent : TrackerEvent {
     // True == nivel superado
     // False == nivel perdido
     public bool result; // TODO, relacionamos esto de alguna manera con SessionEndEvent??? por el mismo atributo y taL
-    public LevelEndEvent(int eventId, DateTime timestamp, int playerId, int sessionId, byte levelid,  bool result) : base("level_end", "Gameplay", eventId, timestamp, playerId, sessionId) {
+    public LevelEndEvent(int eventId, DateTime timestamp, int sessionId, byte levelid,  bool result) : base("level_end", "Gameplay", eventId, timestamp, sessionId) {
         this.level_id = levelid;
         this.result = result;
     }
