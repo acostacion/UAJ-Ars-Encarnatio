@@ -14,7 +14,6 @@ public class BrilloComponent : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 10;
         System.Numerics.Vector2 mPos = new System.Numerics.Vector2(mousePosition.x, mousePosition.y);
-        Tracker.Instance.registerUIInteractionEvent(InteractionTarget.TRAPO, mPos);
     }
 
     void OnMouseExit()

@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private GameObject _line;
     [SerializeField] private AudioClip _escribeSound;
     private Vector3 mousePos = Vector3.zero;
+    private Vector3 _newPoint = Vector3.zero;
     private AudioSource _audioSource;
     public AudioSource aSource { get { return _audioSource; } }
 
@@ -29,7 +30,7 @@ public class InputManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        Vector3 newPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _newPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
 
@@ -59,14 +60,16 @@ public class InputManager : MonoBehaviour
             {
                 // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
                 Tracker.Instance.registerDrawStartEvent(); // TODO pero le falta el VECTOR2, no??
-                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition);
+                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, 
+                    new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
 
                 _drawingComponent.VariasLineas();
             }
             // tiene en cuenta el collider para que no mande dos clics al clicar sobre un InutilComponent.
             else {
                 if (hit.collider == null) {
-                    Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, Input.mousePosition);
+                    Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, 
+                        new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
                 }
             }
         }
@@ -77,7 +80,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButton(0)) {
             mousePos = Input.mousePosition;
             if (isInDrawingArea) {
-                if (_drawingComponent != null && newPoint != null) _drawingComponent.Paint(newPoint);
+                if (_drawingComponent != null && _newPoint != null) _drawingComponent.Paint(_newPoint);
                 if (_audioSource != null && !_audioSource.isPlaying) _audioSource.Play();
             }
         }
