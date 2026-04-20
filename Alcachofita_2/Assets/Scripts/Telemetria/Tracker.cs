@@ -67,8 +67,6 @@ public class Tracker {
         //TODO: decidir como decidimos la sesion id y el player id
         sesionID = 0;
         playerID = 0;
-
-        registerSessionStartEvent();
     }
 
     public void registerDrawStartEvent() 

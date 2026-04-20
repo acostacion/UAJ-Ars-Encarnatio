@@ -75,9 +75,6 @@ public class UIManager : MonoBehaviour
     }
 
     public void GoToCredits() {
-        // [TELEMETRIA] antes de ir a los creditos guarda el evento final de partida
-        Tracker.Instance.registerSessionEndEvent(); // TODO no deberia guardar tipo de final o algo??
-
         // referenciando al gamemanager (importante! si no no cambia de estado)
         RequestStateChange(GameManager.GameStates.CREDITS); 
     }
