@@ -1,4 +1,6 @@
-﻿using System;
+﻿// GetFolderPath(https://learn.microsoft.com/es-es/dotnet/api/system.environment.getfolderpath?view=net-8.0)
+// SpecialFolder.LocalApplicationData(https://learn.microsoft.com/es-es/dotnet/api/system.environment.specialfolder?view=net-8.0)
+using System;
 using System.Numerics;
 using System.IO;
 public class Tracker {
@@ -58,7 +60,10 @@ public class Tracker {
                         break;
                         // ... TODO: aniadir otros casos si los hacemos...
                 }
-                string path = Application.persistentDataPath + "/events.json";
+
+                // el metodo de antes te metia en appdata pero con unitry y ahora este tb
+                // TODO en concreto a k carpeta hay k meterlo?? pork se puede mirar cn esto Environment.SpecialFolder
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/events.json";
                 persistor = new FilePersistence(serializer, path);
                 break;
                 // ... TODO: aniadir otros casos si los hacemos...
