@@ -5,7 +5,6 @@ using System.Numerics;
 using System.IO;
 using System.Diagnostics;
 using static System.Collections.Specialized.BitVector32;
-using Unity.VisualScripting;
 public class Tracker {
     private IPersistence persistor;
     private ISerializer serializer;
@@ -29,13 +28,9 @@ public class Tracker {
     enum PersistenceType { File }
     PersistenceType _persistenceType;
 
-    // Cola de eventos
-    // TODO  pero hacer con la clase event k he creado
-
-
     public void Start(long sesionId) {
-        _persistenceType = PersistenceType.File; // por ejemplo
-        _serializationType = SerializationType.JSON; // por ejemplo
+        _persistenceType = PersistenceType.File; 
+        _serializationType = SerializationType.JSON; 
         sesionID = sesionId;
 
         // 1. primero vemos de que formato seran los cosas
@@ -63,6 +58,7 @@ public class Tracker {
         }
     }
 
+    // Eventos que se van a registrar
     public void registerDrawStartEvent(float mouse_pos_x, float mouse_pos_y)
     {
         if (persistor == null) return;
