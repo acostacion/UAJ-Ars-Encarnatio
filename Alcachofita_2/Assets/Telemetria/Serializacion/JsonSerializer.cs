@@ -1,13 +1,14 @@
 using UnityEngine;
 
-// Serializador JSON de eventos
+/*
+Implementacion concreta de ISerializer para serializar eventos en formato JSON.
+Utiliza la utilidad nativa de Unity (JsonUtility) para realizar la conversion.
+ */
 public class JsonSerializer : ISerializer
 {
     // Transforma el objeto del evento a una cadena de texto en formato JSON
     public string Serialize(TrackerEvent trackerEvent)
     {
-        // Utilidad de Unity para convertir el objeto a un string JSON
-
         // Solo serializa campos publicos o privados con [SerializeField]
         return JsonUtility.ToJson(trackerEvent);
     }
