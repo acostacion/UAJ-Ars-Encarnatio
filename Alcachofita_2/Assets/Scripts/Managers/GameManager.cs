@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
                 // cambia la runa a comprobar
                 _nextRune = UsarRuna();
-                Debug.Log(_nextRune);
+                //Debug.Log(_nextRune);
 
                 // [TELEMETRIA] primer nivel
                 TrackerManager.Instance.registerLevelStartEvent((byte)(_nextRune+1));
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
                 if (_pistaComp != null) _pistaComp.setPista((PistaComponent.Acertijo)_nextRune);
                 if (runas.Length > 0 && _ShapeDetector != null && _nextRune <= runas.Length)
                 {
-                    Debug.Log(runas[_nextRune]);
+                    //Debug.Log(runas[_nextRune]);
                     _ShapeDetector.ChangeRune(runas[_nextRune]);
                 }
 

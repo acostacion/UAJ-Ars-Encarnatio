@@ -5,6 +5,6 @@ using System;
 public class SessionEndEvent : TrackerEvent {
     // True == partida ganada 
     // False == partida perdida 
-    public SessionEndEvent(int eventId, DateTime timestamp, int sessionId) : base("session_end", "Generic", eventId, timestamp, sessionId) {
+    public SessionEndEvent(int eventId, DateTime timestamp, long sessionId) : base("session_end", "Generic", eventId, timestamp, sessionId) {
     }
 }

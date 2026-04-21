@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class TrackerManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class TrackerManager : MonoBehaviour
 
     void Start()
     {
-        _instance.Start();
+        _instance.Start(AnalyticsSessionInfo.sessionId);
     }
 
     // Update is called once per frame

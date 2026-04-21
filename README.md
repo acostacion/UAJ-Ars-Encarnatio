@@ -6,8 +6,6 @@ La estructura de este sistema es la siguiente:
 - "Persistencia": Carpeta en la que se implementan los sistemas de persistencia y su interfaz.
 - "Serializacion": Carpeta en la que se implementan los sistemas de serializacion y su interfaz.
 
-Para utilizar el sistema de telemetría en tu motor de desarrollo se recomienda crear un objeto Singleton que lo instancie.
-
 El sistema está implementado en el juego de Unity de ejemplo (disponible también en el directorio raiz de este proyecto).
 
 ### Añadir los eventos
@@ -43,13 +41,13 @@ public void registerDrawStartEvent(float mouse_pos_x, float mouse_pos_y)
         flush();
 }
 ```
-En el propio juego se llama al método de registro del juego cuando sea pertinente.
+En el propio motor de desarrollo se crea un objeto Singleton que lo instancie el Tracker, inicializandolo con el número de sesion. Desde distintos puntos del juego se llama al método de registro del juego cuando sea pertinente.
 ```C#
 TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition.x, Input.mousePosition.y);
 ```
 
 ### Ejecutar pruebas
-Con el sistema ya implementado, se guardarán las trazas en una carpeta llamada "ArsEncarnatioEvents" en el directorio "Documentos". Estos ficheros tendran el nombre "session_00000_events" con un número de sesión incremental acorde con la cantidad de ficheros del ordenador.
+Con el sistema ya implementado, se guardarán las trazas en una carpeta llamada "ArsEncarnatioEvents" en el directorio "Documentos". Estos ficheros tendran el nombre "session_0000000000000_events" con un número de sesión generado de manera aleatoria.
 
 ### Analizar pruebas
 Una vez adquiridos los ficheros de trazas, basta con copiarlos al directorio "Analisis/data" y ejecutar las pruebas acorde a las instrucciones en su README.

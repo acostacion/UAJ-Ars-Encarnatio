@@ -8,7 +8,7 @@ using static System.Collections.Specialized.BitVector32;
 public class Tracker {
     private IPersistence persistor;
     private ISerializer serializer;
-    int sesionID;
+    long sesionID;
     int eventID = 0;
 
     float currEvents, eventsToFlush = 30;
@@ -32,9 +32,10 @@ public class Tracker {
     // TODO  pero hacer con la clase event k he creado
 
 
-    public void Start() {
+    public void Start(long sesionId) {
         _persistenceType = PersistenceType.File; // por ejemplo
         _serializationType = SerializationType.JSON; // por ejemplo
+        sesionID = sesionId;
 
         // 1. primero vemos de que formato seran los cosas
         switch (_persistenceType) {
@@ -45,32 +46,13 @@ public class Tracker {
                         break;
                         // ... TODO: aniadir otros casos si los hacemos...
                 }
-
-                sesionID = 0;
-
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ArsEncarnatioEvents/";
-                sesionID = SetSesionID(path);
-                string file = "session_" + sesionID.ToString("00000")+ "_events.json";
+                string file = "session_" + sesionID.ToString()+ "_events.json";
                 Debug.WriteLine("Data saved to: " + Path.Combine(path, file));
                 persistor = new FilePersistence(serializer, Path.Combine(path, file));
                 break;
                 // ... TODO: aniadir otros casos si los hacemos...
         }
-    }
-
-    private int SetSesionID(String path)
-    {
-        DirectoryInfo directoryInfo = new DirectoryInfo(path);
-        int id = 0;
-        foreach (FileInfo info in directoryInfo.GetFiles())
-        {
-            string[] split = info.Name.Split('_');
-            if (split[0] == "session")
-            {
-                id = Math.Max(id, int.Parse(split[1]) + 1);
-            }
-        }
-        return id;
     }
 
     public void registerDrawStartEvent(float mouse_pos_x, float mouse_pos_y)
