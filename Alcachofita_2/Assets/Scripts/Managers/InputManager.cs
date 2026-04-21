@@ -39,10 +39,10 @@ public class InputManager : MonoBehaviour
 
         if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameManager.GameStates.GAME) {
             bool isInDrawingArea = _drawingComponent != null
-                                    && mousePos.x > LEFT_OFFSET
-                                    && mousePos.x < Screen.width - RIGHT_OFFSET
-                                    && mousePos.y < Screen.height - UP_OFFSET
-                                    && mousePos.y > DOWN_OFFSET;
+                                    && Input.mousePosition.x > LEFT_OFFSET
+                                    && Input.mousePosition.x < Screen.width - RIGHT_OFFSET
+                                    && Input.mousePosition.y < Screen.height - UP_OFFSET
+                                    && Input.mousePosition.y > DOWN_OFFSET;
 
             leftClickDown(isInDrawingArea);
             leftClickPressing(isInDrawingArea);
