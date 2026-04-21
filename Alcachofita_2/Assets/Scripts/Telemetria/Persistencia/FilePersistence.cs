@@ -16,7 +16,7 @@ public class FilePersistence : IPersistence {
         {
             Directory.CreateDirectory(directory);
         }
-        _writer = new StreamWriter(directory);
+        _writer = new StreamWriter(path);
     }
    
     public override void Flush(List<TrackerEvent> events)

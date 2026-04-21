@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
         auxT += Time.deltaTime;
         if (auxT >= 0.5f)
         {
-            Tracker.Instance.registerMouseMovementEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            TrackerManager.Instance.registerMouseMovementEvent(Input.mousePosition.x, Input.mousePosition.y);
             auxT = 0.0f;
         }
     }
@@ -69,17 +69,15 @@ public class InputManager : MonoBehaviour
             if (isInDrawingArea)
             {
                 // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
-                Tracker.Instance.registerDrawStartEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
-                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, 
-                    new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                TrackerManager.Instance.registerDrawStartEvent(Input.mousePosition.x, Input.mousePosition.y);
+                TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition.x, Input.mousePosition.y);
 
                 _drawingComponent.VariasLineas();
             }
             // tiene en cuenta el collider para que no mande dos clics al clicar sobre un InutilComponent.
             else {
                 if (hit.collider == null) {
-                    Tracker.Instance.registerUIInteractionEvent(InteractionTarget.NULL, 
-                        new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                    TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.NULL, Input.mousePosition.x, Input.mousePosition.y);
                 }
             }
         }
@@ -99,7 +97,7 @@ public class InputManager : MonoBehaviour
     void leftClickUp() {
         if (Input.GetMouseButtonUp(0)) {
             //  [TELEMETRIA] suelta trazo
-            Tracker.Instance.registerDrawEndEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            TrackerManager.Instance.registerDrawEndEvent(Input.mousePosition.x, Input.mousePosition.y);
 
             _audioSource.Stop();
         }

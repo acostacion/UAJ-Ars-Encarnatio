@@ -3,34 +3,15 @@
 using System;
 using System.Numerics;
 using System.IO;
+using System.Diagnostics;
+using static System.Collections.Specialized.BitVector32;
 public class Tracker {
-    static private Tracker _instance = null;
-    static public Tracker Instance { 
-        get {
-            // operador que dijo guille
-            _instance ??= new Tracker();
-            return _instance; 
-        } 
-    }
-
     private IPersistence persistor;
     private ISerializer serializer;
     int sesionID;
     int eventID = 0;
 
     float currEvents, eventsToFlush = 30;
-    // ESTE AWAKE DEBERÍA IR EN EL MONOBEHAVIOUR Q INICIALIZA EL TRACKER
-    //void Awake()
-    //{
-    //    if (_instance == null) {
-    //        _instance = this;
-    //        DontDestroyOnLoad(gameObject);
-    //    }
-    //    else {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //}
 
     /// <summary>
     /// • Centralización del punto de entrada del sistema de telemetría en un objeto accesible desde cualquier punto de nuestro juego.
@@ -51,7 +32,7 @@ public class Tracker {
     // TODO  pero hacer con la clase event k he creado
 
 
-    void Start() {
+    public void Start() {
         _persistenceType = PersistenceType.File; // por ejemplo
         _serializationType = SerializationType.JSON; // por ejemplo
 
@@ -65,29 +46,45 @@ public class Tracker {
                         // ... TODO: aniadir otros casos si los hacemos...
                 }
 
-                // el metodo de antes te metia en appdata pero con unitry y ahora este tb
-                // TODO en concreto a k carpeta hay k meterlo?? pork se puede mirar cn esto Environment.SpecialFolder
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/events.json";
-                persistor = new FilePersistence(serializer, path);
+                sesionID = 0;
+
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ArsEncarnatioEvents/";
+                sesionID = SetSesionID(path);
+                string file = "session_" + sesionID.ToString("00000")+ "_events.json";
+                Debug.WriteLine("Data saved to: " + Path.Combine(path, file));
+                persistor = new FilePersistence(serializer, Path.Combine(path, file));
                 break;
                 // ... TODO: aniadir otros casos si los hacemos...
         }
-
-        sesionID = 0;
     }
 
-    public void registerDrawStartEvent(Vector2 pos) 
+    private int SetSesionID(String path)
     {
-        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID, pos);
+        DirectoryInfo directoryInfo = new DirectoryInfo(path);
+        int id = 0;
+        foreach (FileInfo info in directoryInfo.GetFiles())
+        {
+            string[] split = info.Name.Split('_');
+            if (split[0] == "session")
+            {
+                id = Math.Max(id, int.Parse(split[1]) + 1);
+            }
+        }
+        return id;
+    }
+
+    public void registerDrawStartEvent(float mouse_pos_x, float mouse_pos_y)
+    {
+        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
             flush();
     }
 
-    public void registerDrawEndEvent(Vector2 pos) 
+    public void registerDrawEndEvent(float mouse_pos_x, float mouse_pos_y)
     {
-        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID, pos);
+        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -111,9 +108,9 @@ public class Tracker {
         persistor.Flush();
     }
 
-    public void registerMouseMovementEvent(Vector2 mouse_pos) 
+    public void registerMouseMovementEvent(float mouse_pos_x, float mouse_pos_y)
     {
-        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos);
+        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -138,9 +135,9 @@ public class Tracker {
             flush();
     }
 
-    public void registerUIInteractionEvent(InteractionTarget target, Vector2 mouse_pos) 
+    public void registerUIInteractionEvent(InteractionTarget target, float mouse_pos_x, float mouse_pos_y) 
     {
-        TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, sesionID, target, mouse_pos);
+        TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, sesionID, target, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)

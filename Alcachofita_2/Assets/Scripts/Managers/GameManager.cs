@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log(_nextRune);
 
                 // [TELEMETRIA] primer nivel
-                Tracker.Instance.registerLevelStartEvent((byte)(_nextRune+1));
+                TrackerManager.Instance.registerLevelStartEvent((byte)(_nextRune+1));
 
                 if (_UIManager != null) _UIManager.ChangeAcertijoNumber(_nextRune);
                 if (_pistaComp != null) _pistaComp.setPista((PistaComponent.Acertijo)_nextRune);
@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour
         if (_ShapeDetector != null && _ShapeDetector.shapeDetected()) // si es valide
         {
             // [TELEMETRIA] si acierta el nivel
-            Tracker.Instance.registerLevelEndEvent((byte)(_nextRune+1), true);
+            TrackerManager.Instance.registerLevelEndEvent((byte)(_nextRune+1), true);
 
             _currentPage++; // siguiente runa
 
@@ -345,7 +345,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(_nextRune);
 
             // [TELEMETRIA] al cambiar runa al comprobar llama a level_start 
-            Tracker.Instance.registerLevelStartEvent((byte)(_nextRune+1));
+            TrackerManager.Instance.registerLevelStartEvent((byte)(_nextRune+1));
 
             _ShapeDetector.ChangeRune(runas[_nextRune]);
 
@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
         else if (_ShapeDetector.CantidadPuntosDibujados() > 0) // si no es dibujo v�lide
         {
             // [TELEMETRIA] si falla el nivel
-            Tracker.Instance.registerLevelEndEvent((byte)(_nextRune+1), false);
+            TrackerManager.Instance.registerLevelEndEvent((byte)(_nextRune+1), false);
 
             QuitaDedo();
             isDead();

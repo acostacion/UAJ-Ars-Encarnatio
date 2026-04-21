@@ -6,9 +6,12 @@ public enum InteractionTarget { TRAPO, CONFIRMAR, DIBUJO, NULL};
 [System.Serializable]
 public class UIInteractionEvent : TrackerEvent {
     public InteractionTarget target_id;
-    public Vector2 clic_pos; // (Vector2) Coordenada X, Y del clic respecto a la resolución de la pantalla de juego
-    public UIInteractionEvent(int eventId, DateTime timestamp, int sessionId, InteractionTarget target, Vector2 clickPosition) : base("ui_interaction", "UI", eventId, timestamp, sessionId) { 
+    public float clic_pos_x; // Coordenada X del clic respecto a la resolución de la pantalla de juego
+    public float clic_pos_y; // Coordenada Y del clic respecto a la resolución de la pantalla de juego
+
+    public UIInteractionEvent(int eventId, DateTime timestamp, int sessionId, InteractionTarget target, float clicPosX, float clicPosY) : base("ui_interaction", "UI", eventId, timestamp, sessionId) { 
         this.target_id = target;
-        this.clic_pos = clickPosition;
+        this.clic_pos_x = clicPosX;
+        this.clic_pos_y = clicPosY;
     }
 }

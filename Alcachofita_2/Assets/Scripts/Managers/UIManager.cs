@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
     /// Metodo para el onClick de los botones, para pasar al juego
     public void GoToGame() {
         // [TELEMETRIA] evento cuando empieza al juego tras presionar boton start.
-        Tracker.Instance.registerSessionStartEvent();
+        TrackerManager.Instance.registerSessionStartEvent();
 
         RequestStateChange(GameManager.GameStates.GAME); // referenciando al gamemanager (importante! si no no cambia de estado)
     }
@@ -45,8 +45,7 @@ public class UIManager : MonoBehaviour
     // Metodo para pasar de pagina
     public void TurnPage() {
         // [TRACKER] cuando se pulsa borde de pagina
-        Tracker.Instance.registerUIInteractionEvent(InteractionTarget.CONFIRMAR, 
-            new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+        TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.CONFIRMAR, Input.mousePosition.x, Input.mousePosition.y);
 
         // cambia de páginas
         if (GameManager.Instance != null) GameManager.Instance.NextPage();
@@ -56,8 +55,7 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.Input != null) {
             if (GameManager.Instance.Input.DrawingComponent != null) {
                 // [TRACKER] cuando se pulsa trapo
-                Tracker.Instance.registerUIInteractionEvent(InteractionTarget.TRAPO, 
-                    new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.TRAPO, Input.mousePosition.x, Input.mousePosition.y);
 
                 GameManager.Instance.Input.DrawingComponent.EraseDrawing();
             }
