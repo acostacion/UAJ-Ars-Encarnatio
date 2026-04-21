@@ -50,7 +50,7 @@ public class InputManager : MonoBehaviour
         }
 
         auxT += Time.deltaTime;
-        if (auxT >= 0.5f)
+        if (auxT >= 1.0f)
         {
             TrackerManager.Instance.registerMouseMovementEvent(Input.mousePosition.x, Input.mousePosition.y);
             auxT = 0.0f;
