@@ -13,10 +13,10 @@ public class TrackerManager : MonoBehaviour
             // Si se llama al Tracker antes del Awake se inicializa aqui
             if (_instance == null)
             {
-                _instance ??= new Tracker();
-                _instance.Start();
+                _instance = new Tracker();
+                _instance.Start(AnalyticsSessionInfo.sessionId);
             }
-           return _instance; ;
+           return _instance;
         }
     }
     void Awake()
@@ -25,7 +25,7 @@ public class TrackerManager : MonoBehaviour
         {
             _instance = new Tracker();
             // Inicializar
-            _instance.Start();
+            _instance.Start(AnalyticsSessionInfo.sessionId);
             DontDestroyOnLoad(gameObject);
         }
         else
