@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 
+/*
+Gestor que actua como puente entre el motor de Unity y el sistema de telemetria (Tracker).
+Mantiene una instancia unica y global (Singleton) del Tracker.
+Escucha los eventos automaticos del ciclo de vida de la aplicacion en Unity (inicio, cierre,
+minimizado) para notificarselos al Tracker y que este resgistre estos eventos.
+ */
 public class TrackerManager : MonoBehaviour
 {
     static private Tracker _instance = null;
@@ -34,17 +40,10 @@ public class TrackerManager : MonoBehaviour
             return;
         }
     }
-
-    void Start()
-    {
-        _instance.Start(AnalyticsSessionInfo.sessionId);
-    }
-
     void OnApplicationQuit()
     {
         if (_instance != null)
         {
-            _instance.registerSessionEndEvent();
             _instance.End();
         }
     }
