@@ -2,7 +2,7 @@
 using System;
 using System.Numerics;
 
-public enum InteractionTarget { TRAPO, CONFIRMAR, DIBUJO, ARANIA, BICHILLO, OJO, NULL};
+public enum InteractionTarget { TRAPO, CONFIRMAR, DIBUJO, NULL};
 [System.Serializable]
 public class UIInteractionEvent : TrackerEvent {
     public InteractionTarget target_id;

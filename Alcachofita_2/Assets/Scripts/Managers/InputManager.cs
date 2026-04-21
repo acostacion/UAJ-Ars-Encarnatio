@@ -21,6 +21,9 @@ public class InputManager : MonoBehaviour
     public DrawingComponent DrawingComponent { get { return _drawingComponent; } }
     #endregion
 
+    // Parametro auxiliar para registrar la posicion del raton
+    float auxT = 0.0f;
+
     // Start is called before the first frame update
     void Start() {
         _drawingComponent = _line.GetComponent<DrawingComponent>();
@@ -45,6 +48,13 @@ public class InputManager : MonoBehaviour
             leftClickPressing(isInDrawingArea);
             leftClickUp();
         }
+
+        auxT += Time.deltaTime;
+        if (auxT >= 0.5f)
+        {
+            Tracker.Instance.registerMouseMovementEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            auxT = 0.0f;
+        }
     }
 
     //Al pulsar, se a�ade una l�nea
@@ -59,7 +69,7 @@ public class InputManager : MonoBehaviour
             if (isInDrawingArea)
             {
                 // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
-                Tracker.Instance.registerDrawStartEvent(); // TODO pero le falta el VECTOR2, no??
+                Tracker.Instance.registerDrawStartEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
                 Tracker.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, 
                     new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
 
@@ -89,7 +99,7 @@ public class InputManager : MonoBehaviour
     void leftClickUp() {
         if (Input.GetMouseButtonUp(0)) {
             //  [TELEMETRIA] suelta trazo
-            Tracker.Instance.registerDrawEndEvent(); // TODO pero le falta el VECTOR2, no??
+            Tracker.Instance.registerDrawEndEvent(new System.Numerics.Vector2(Input.mousePosition.x, Input.mousePosition.y));
 
             _audioSource.Stop();
         }

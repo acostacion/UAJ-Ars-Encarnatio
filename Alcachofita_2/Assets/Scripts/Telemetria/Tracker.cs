@@ -50,7 +50,7 @@ public class Tracker {
     // Cola de eventos
     // TODO  pero hacer con la clase event k he creado
 
-    // Esto esta inspirado en el repo de David
+
     void Start() {
         _persistenceType = PersistenceType.File; // por ejemplo
         _serializationType = SerializationType.JSON; // por ejemplo
@@ -76,18 +76,18 @@ public class Tracker {
         sesionID = 0;
     }
 
-    public void registerDrawStartEvent() 
+    public void registerDrawStartEvent(Vector2 pos) 
     {
-        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID);
+        TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID, pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
             flush();
     }
 
-    public void registerDrawEndEvent() 
+    public void registerDrawEndEvent(Vector2 pos) 
     {
-        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID);
+        TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID, pos);
         persistor.Send(ev);
         eventID++; currEvents++;
         if (currEvents > eventsToFlush)
@@ -147,7 +147,7 @@ public class Tracker {
             flush();
     }
 
-    public void registerWidowBacKgroundedEvent() 
+    public void registerWidowBackgroundedEvent() 
     {
         TrackerEvent ev = new WindowBackgroundedEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
@@ -170,7 +170,7 @@ public class Tracker {
         if (hasFocus) 
             registerWidowForegroundedEvent();
         else
-            registerWidowBacKgroundedEvent();
+            registerWidowBackgroundedEvent();
     }
 
     void OnApplicationPause(bool pauseStatus)
@@ -178,7 +178,7 @@ public class Tracker {
         if (!pauseStatus)
             registerWidowForegroundedEvent();
         else
-            registerWidowBacKgroundedEvent();
+            registerWidowBackgroundedEvent();
     }
 
     void OnApplicationQuit()
