@@ -1,25 +1,26 @@
-A jupyter script to analyze the events extracted from the game
+Script de Jupyter para analizar los eventos extraídos del juego.
 
-Requirements
-Python 3.9+
-Jupyter Notebook
-Libraries:
+Requisitos:
+    Python 3.9+
+    Jupyter Notebook
+
+Librerias:
     pandas
     numpy
     matplotlib
 
-Create enviroment
+Crear entorno:
 python -m venv myenv
 
-To activate:
+Activar entoro:
+    Windows:
+    myenv\Scripts\activate
+    Linux / macOS:
+    source myenv/bin/activate
 
-Windows:
-myenv\Scripts\activate
-Linux / macOS:
-source myenv/bin/activate
+Instalar:
+    pip install pandas numpy matplotlib jupyter
 
-Install:
-pip install pandas numpy matplotlib jupyter
+Ejecutar analyze.ipynb con jupyter.
 
-Execute analyze.ipynb with jupyter
-Terminal will create metric stats images
+En el notebook se generarán las métricas y sus correspondientes imágenes con estadísticas, que se guardarán en este directorio.
