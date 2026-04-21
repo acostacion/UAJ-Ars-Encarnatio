@@ -39,4 +39,12 @@ public class TrackerManager : MonoBehaviour
     {
         _instance.Start(AnalyticsSessionInfo.sessionId);
     }
+
+    void OnApplicationQuit()
+    {
+        if (_instance != null)
+        {
+            _instance.End();
+        }
+    }
 }

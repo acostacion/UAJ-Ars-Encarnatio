@@ -5,6 +5,7 @@ using System.Numerics;
 using System.IO;
 using System.Diagnostics;
 using static System.Collections.Specialized.BitVector32;
+using Unity.VisualScripting;
 public class Tracker {
     private IPersistence persistor;
     private ISerializer serializer;
@@ -190,12 +191,28 @@ public class Tracker {
     {
         registerSessionEndEvent();
         persistor.Flush();
+        
     }
 
     private void flush()
     {
         persistor.Flush();
         currEvents = 0;
+    }
+
+    public void End()
+    {
+        // Registrar fin de sesion
+        registerSessionEndEvent();
+
+        // Volcar lo que quede
+        flush();
+
+        // Cerrar el archivo fisicamente
+        if (persistor != null)
+        {
+            persistor.Close();
+        }
     }
 
 }
