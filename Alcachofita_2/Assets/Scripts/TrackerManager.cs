@@ -44,7 +44,23 @@ public class TrackerManager : MonoBehaviour
     {
         if (_instance != null)
         {
+            _instance.registerSessionEndEvent();
             _instance.End();
         }
+    }
+    public void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+            _instance.registerWidowForegroundedEvent();
+        else
+            _instance.registerWidowBackgroundedEvent();
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+            _instance.registerWidowForegroundedEvent();
+        else
+            _instance.registerWidowBackgroundedEvent();
     }
 }

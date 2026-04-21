@@ -167,29 +167,6 @@ public class Tracker {
             flush();
     }
 
-    public void OnApplicationFocus(bool hasFocus)
-    {
-        if (hasFocus) 
-            registerWidowForegroundedEvent();
-        else
-            registerWidowBackgroundedEvent();
-    }
-
-    void OnApplicationPause(bool pauseStatus)
-    {
-        if (!pauseStatus)
-            registerWidowForegroundedEvent();
-        else
-            registerWidowBackgroundedEvent();
-    }
-
-    void OnApplicationQuit()
-    {
-        registerSessionEndEvent();
-        persistor.Flush();
-        
-    }
-
     private void flush()
     {
         persistor.Flush();
