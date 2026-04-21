@@ -21,9 +21,6 @@ public class InputManager : MonoBehaviour
     public DrawingComponent DrawingComponent { get { return _drawingComponent; } }
     #endregion
 
-    // Parametro auxiliar para registrar la posicion del raton
-    float auxT = 0.0f;
-
     // Start is called before the first frame update
     void Start() {
         _drawingComponent = _line.GetComponent<DrawingComponent>();
@@ -48,13 +45,6 @@ public class InputManager : MonoBehaviour
             leftClickPressing(isInDrawingArea);
             leftClickUp();
         }
-
-        auxT += Time.deltaTime;
-        if (auxT >= 1.0f)
-        {
-            TrackerManager.Instance.registerMouseMovementEvent(Input.mousePosition.x, Input.mousePosition.y);
-            auxT = 0.0f;
-        }
     }
 
     //Al pulsar, se a�ade una l�nea
@@ -70,8 +60,6 @@ public class InputManager : MonoBehaviour
             {
                 // [TELEMETRIA] donde empieza a dibujar (pero en el cuaderno)
                 TrackerManager.Instance.registerDrawStartEvent(Input.mousePosition.x, Input.mousePosition.y);
-                TrackerManager.Instance.registerUIInteractionEvent(InteractionTarget.DIBUJO, Input.mousePosition.x, Input.mousePosition.y);
-
                 _drawingComponent.VariasLineas();
             }
             // tiene en cuenta el collider para que no mande dos clics al clicar sobre un InutilComponent.
