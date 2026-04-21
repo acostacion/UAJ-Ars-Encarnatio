@@ -46,7 +46,15 @@ public class Tracker {
                         break;
                         
                 }
+                // Definir ruta
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ArsEncarnatioEvents/";
+
+                // Si la carpeta no existe, se crea
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
                 string file = "session_" + sesionID.ToString()+ "_events.json";
                 Debug.WriteLine("Data saved to: " + Path.Combine(path, file));
                 persistor = new FilePersistence(serializer, Path.Combine(path, file));
