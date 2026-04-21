@@ -15,7 +15,7 @@ public class DrawingComponent : MonoBehaviour
 
     #region Properties
 
-    LineRenderer line = new LineRenderer();
+    LineRenderer line;
     private Vector3 _lastPoint;
     private Vector3 _centralPoint;
     [SerializeField] private AudioClip _borra;
@@ -35,6 +35,8 @@ public class DrawingComponent : MonoBehaviour
     //Dibuja un trazo mientras se mantenga pulsado
     public LineRenderer Paint(Vector3 newPoint)
     {
+        if (line == null) return null;
+
         newPoint.z = 1;
 
         //Si hay suficiente distancia entre los puntos, a�adimos el punto nuevo en la l�nea

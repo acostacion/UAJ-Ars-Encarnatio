@@ -9,8 +9,13 @@ public class TrackerManager : MonoBehaviour
     {
         get
         {
-            _instance ??= new Tracker();
-            return _instance;
+            // Si se llama al Tracker antes del Awake se inicializa aqui
+            if (_instance == null)
+            {
+                _instance ??= new Tracker();
+                _instance.Start();
+            }
+           return _instance; ;
         }
     }
     void Awake()
@@ -18,6 +23,8 @@ public class TrackerManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = new Tracker();
+            // Inicializar
+            _instance.Start();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -25,16 +32,5 @@ public class TrackerManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-    }
-
-    void Start()
-    {
-        _instance.Start();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

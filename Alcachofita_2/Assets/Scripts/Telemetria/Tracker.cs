@@ -33,8 +33,8 @@ public class Tracker {
 
 
     public void Start() {
-        _persistenceType = PersistenceType.File; // por ejemplo
-        _serializationType = SerializationType.JSON; // por ejemplo
+        _persistenceType = PersistenceType.File; 
+        _serializationType = SerializationType.JSON; 
 
         // 1. primero vemos de que formato seran los cosas
         switch (_persistenceType) {
@@ -43,24 +43,35 @@ public class Tracker {
                     case SerializationType.JSON:
                         serializer = new JsonSerializer();
                         break;
-                        // ... TODO: aniadir otros casos si los hacemos...
+                        
                 }
 
                 sesionID = 0;
 
+                // Definir ruta
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/ArsEncarnatioEvents/";
+
+                // Si la carpeta no existe, se crea
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    Debug.WriteLine("Carpeta creada en: " + path);
+                }
+
                 sesionID = SetSesionID(path);
                 string file = "session_" + sesionID.ToString("00000")+ "_events.json";
                 Debug.WriteLine("Data saved to: " + Path.Combine(path, file));
                 persistor = new FilePersistence(serializer, Path.Combine(path, file));
                 break;
-                // ... TODO: aniadir otros casos si los hacemos...
         }
     }
 
     private int SetSesionID(String path)
     {
         DirectoryInfo directoryInfo = new DirectoryInfo(path);
+        // Si por algun motivo la carpeta no existe, devolver id 0
+        if (!directoryInfo.Exists) return 0;
+
         int id = 0;
         foreach (FileInfo info in directoryInfo.GetFiles())
         {
@@ -75,6 +86,8 @@ public class Tracker {
 
     public void registerDrawStartEvent(float mouse_pos_x, float mouse_pos_y)
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new DrawStartEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -84,6 +97,8 @@ public class Tracker {
 
     public void registerDrawEndEvent(float mouse_pos_x, float mouse_pos_y)
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new DrawEndEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -93,6 +108,8 @@ public class Tracker {
 
     public void registerLevelStartEvent(byte levelID) 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new LevelStartEvent(eventID, DateTime.UtcNow, sesionID, levelID);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -102,6 +119,8 @@ public class Tracker {
 
     public void registerLevelEndEvent(byte levelID, bool result)
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new LevelEndEvent(eventID, DateTime.UtcNow, sesionID, levelID, result);
         persistor.Send(ev);
         eventID++;
@@ -110,6 +129,7 @@ public class Tracker {
 
     public void registerMouseMovementEvent(float mouse_pos_x, float mouse_pos_y)
     {
+        if (persistor == null) return;
         TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -119,6 +139,8 @@ public class Tracker {
 
     public void registerSessionStartEvent() 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new SessionStartEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -128,6 +150,8 @@ public class Tracker {
 
     public void registerSessionEndEvent() 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new SessionEndEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -137,6 +161,8 @@ public class Tracker {
 
     public void registerUIInteractionEvent(InteractionTarget target, float mouse_pos_x, float mouse_pos_y) 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new UIInteractionEvent(eventID, DateTime.UtcNow, sesionID, target, mouse_pos_x, mouse_pos_y);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -146,6 +172,8 @@ public class Tracker {
 
     public void registerWidowBackgroundedEvent() 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new WindowBackgroundedEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
@@ -155,6 +183,8 @@ public class Tracker {
 
     public void registerWidowForegroundedEvent() 
     {
+        if (persistor == null) return;
+
         TrackerEvent ev = new WindowForegroundedEvent(eventID, DateTime.UtcNow, sesionID);
         persistor.Send(ev);
         eventID++; currEvents++;
