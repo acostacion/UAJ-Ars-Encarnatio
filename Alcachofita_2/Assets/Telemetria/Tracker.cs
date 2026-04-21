@@ -102,16 +102,6 @@ public class Tracker {
         persistor.Flush();
     }
 
-    public void registerMouseMovementEvent(float mouse_pos_x, float mouse_pos_y)
-    {
-        if (persistor == null) return;
-        TrackerEvent ev = new MouseMovementEvent(eventID, DateTime.UtcNow, sesionID, mouse_pos_x, mouse_pos_y);
-        persistor.Send(ev);
-        eventID++; currEvents++;
-        if (currEvents > eventsToFlush)
-            flush();
-    }
-
     public void registerSessionStartEvent() 
     {
         if (persistor == null) return;
